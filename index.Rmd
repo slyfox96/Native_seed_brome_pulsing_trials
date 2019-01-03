@@ -59,7 +59,7 @@ final <- density %>%
 #density dependence is only when curves are non-linear
 #brome only
 ggplot(density, aes(brome.density, plant.density, color = as.character(census))) +
-  geom_smooth(se = FALSE) +
+  geom_point() +
   facet_wrap(~water.treatment*species) +
   labs(color = "census", x = "brome density", y = "native density")
 
