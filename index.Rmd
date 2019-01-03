@@ -15,7 +15,7 @@ output:
 <br>
 
 ###Purpose
-To explore the importance of interactions and density in annual plant species in the San Joaquin Desert.
+To explore the importance of interactions, water limitation, and density in annual plant species in the San Joaquin Desert.
 
 
 <br>
@@ -26,7 +26,11 @@ To explore the importance of interactions and density in annual plant species in
 
 ###Data
 ```{r, data, warning=FALSE, message=FALSE}
+#libraries
 library(tidyverse)
+library(emmeans)
+
+#all data
 data <- read_csv("data/data.csv")
 
 #gather up
@@ -66,20 +70,29 @@ ggplot(density, aes(water.treatment, proportion, color = as.character(census))) 
 
 
 
-#PLOT ONLY BROME and ONLY NATIVES 
+#need a plot for biomass
 
-#ggplot(final, aes(seed.density, proportion)) +
-  #geom_smooth(se = FALSE) +
-  #facet_wrap(~light*brome.treatment*species) +
-  #labs(color = "census", x = "seed density", y = "proportionate survival")
-#then add contrasts for species
-#check performance measures too
+
 ```
 
 ###Models
 Examine differences between species in general.
 Formally test for density dependence.
-Explore sensitivity of performance measures.
+Explore sensitivity of performance measures.  
+
+```{r, models, warning=FALSE, message=FALSE}
+#model for water effects for final plant survival
+m1 <- glm(proportion~water.treatment*species, family = quasipoisson, data = final)
+#summary(m1)
+anova(m1,test="Chisq")
+emmeans(m1, list(pairwise ~ water.treatment*species), adjust = "tukey")
+
+#now need a model for biomass
+
+#need a model for competition brome-natives
+
+
+```
 
 
 ###Interpretations

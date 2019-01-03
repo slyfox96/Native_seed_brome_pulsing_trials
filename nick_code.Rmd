@@ -1,0 +1,13 @@
+##Native-brome density water pulsing competition trials  
+
+###Purpose
+To explore the importance of interactions, water limitation, and density in annual plant species in the San Joaquin Desert.  
+
+###Nick exloratory data analyses
+```{r, eda}
+
+#put your r-code here
+
+
+```
+
