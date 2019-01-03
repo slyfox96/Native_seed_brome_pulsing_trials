@@ -32,7 +32,10 @@ data <- read_csv("data/data.csv")
 #gather up
 density <- data %>%
   gather(species, plant.density, 9:12) %>%
-  select(census, rep, native.species, native.density, brome.density, water.treatment, species, plant.density)
+  select(census, rep, native.species, native.density, brome.density, water.treatment, species, plant.density) %>%
+  mutate(seed.density = case_when(brome.density == 10 ~ 20, brome.density == 0 ~ 10), mixture = case_when(brome.density == 10 ~ "mixture", brome.density == 0 ~ "monoculture"))
+
+write_csv(density, "data/density.csv")
 
 #density <- density %>%
   #mutate(proportion = plant.density/seed.density*100) need to figure this out
