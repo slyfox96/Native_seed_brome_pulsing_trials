@@ -33,9 +33,9 @@ data <- read_csv("data/data.csv")
 density <- data %>%
   gather(species, plant.density, 9:12) %>%
   select(census, rep, native.species, native.density, brome.density, water.treatment, species, plant.density) %>%
-  mutate(seed.density = case_when(brome.density == 10 ~ 20, brome.density == 0 ~ 10), mixture = case_when(brome.density == 10 ~ "mixture", brome.density == 0 ~ "monoculture"))
+  mutate(seed.density = case_when(brome.density == 10 ~ 20, brome.density == 0 ~ 10), mixture = case_when(brome.density == 10 ~ "mixture", brome.density == 0 ~ "monoculture"), proportion = case_when(brome.density == 10 ~ plant.density/10*100, brome.density == 0 ~ plant.density/10*100))
 
-write_csv(density, "data/density.csv")
+#write_csv(density, "data/density.csv")
 
 #density <- density %>%
   #mutate(proportion = plant.density/seed.density*100) need to figure this out
@@ -57,8 +57,14 @@ final <- density %>%
 ggplot(density, aes(brome.density, plant.density, color = as.character(census))) +
   geom_smooth(se = FALSE) +
   facet_wrap(~water.treatment*species) +
-  labs(color = "census", x = "seed density", y = "plant density")
-#density dependence here is when curves have slopes significantly different from 1
+  labs(color = "census", x = "brome density", y = "native density")
+
+ggplot(density, aes(water.treatment, proportion, color = as.character(census))) +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~mixture*species) +
+  labs(x = "water", y = "proportionate survival", color = "census")
+
+
 
 #PLOT ONLY BROME and ONLY NATIVES 
 
